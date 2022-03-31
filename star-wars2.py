@@ -7,7 +7,6 @@ def read_file(file):
     file_to_read = open(file, 'r')
     reader = list(csv.reader(file_to_read, delimiter = ";"))
     reader.pop(0)
-    #reader = sorted(reader, key = lambda item: item[0])
     positions = {}
     for element in reader:
         t = float(element[0])
@@ -45,7 +44,6 @@ def selection(pop, data, n):
 # Retourne deux individus à partir de deux individus ind1 et ind2 
 # la premiere moitié des données de ind1 suivies de la dernière moitié de ind2 et inversement
 def crossover(ind1, ind2):
-    #p = np.random.randint(1,4)
     return [ind1[:3] + ind2[-3:], ind2[:3] + ind1[-3:]]
 
 # Retourne un individu suite à la mutation de ind
@@ -57,10 +55,9 @@ def mutation(ind):
     return ind
 
 def genetic_algo(data, pop_length, fitness_limit):
-
     start = time.time()
     pop = create_pop(pop_length)
-    generations = 0
+    generation = 0
     minimumFitness = fitness_limit + 1
     while(minimumFitness >= fitness_limit):
         selected_pop = selection(pop, data,pop_length//2) 
@@ -74,14 +71,14 @@ def genetic_algo(data, pop_length, fitness_limit):
 
         next_gen = crossed_pop + mutated_pop + create_pop(pop_length)
         pop = next_gen
-        print(f"minimumFitness => {minimumFitness}")
-        generations += 1
+        print(f"fitness : {minimumFitness} | generation : {generation}")
+        generation += 1
         
     pop = evaluate(pop, data)
     end = time.time()
     runtime = end - start
 
-    return pop[0], generations, runtime
+    return pop[0], generation, runtime
 
 if __name__ == "__main__":
     data = read_file("position_sample.csv")
