@@ -25,7 +25,7 @@ def create_pop(k):
     pop = [create_ind() for i in range(k)]
     return pop
 
-# Calcul de l'écart entre les coordoonées x, y réels et x,y rapprochés
+# Calcul de l'écart entre les coordoonées x, y théoriques et x,y approchés
 def gap(ind, t, x, y):
      return np.abs(x - (ind[0] * np.sin((ind[1] * t)+ ind[2]))) + np.abs(y - (ind[3] * np.sin((ind[4] * t)+ ind[5])))
 
@@ -83,12 +83,12 @@ def genetic_algo(data, pop_length, fitness_limit):
 if __name__ == "__main__":
     data = read_file("position_sample.csv")
     POP = 500
-    FITNESS_LIMIT = 40
+    FITNESS_LIMIT = 30 # TO CHANGE
     
     solution, nb_gen, runtime = genetic_algo(data, POP,FITNESS_LIMIT)
     print(f"Population : {POP}, Fitness Limit : {FITNESS_LIMIT}")
     print(f"x(t) = {solution[0]} * sin({solution[1]} * t + {solution[2]})")
     print(f"y(t) = {solution[3]} * sin({solution[4]} * t + {solution[5]})")
     print(f"number of generations : {nb_gen}")
-    print(f"time : {runtime} s")
+    print(f"time : {round(runtime // 60)} min {round(runtime % 60)} s")
     print(f"fitness: {fitness(solution, data)}")
